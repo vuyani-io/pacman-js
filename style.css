@@ -32,7 +32,8 @@ body {
 }
 
 .wall {
-	border: 2px solid blue;
+	background: blue;
+	border: 1px solid black;
 	box-sizing: border-box;
 }
 
