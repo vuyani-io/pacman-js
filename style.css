@@ -1,0 +1,10 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+/* If style connected, should show background image */
+body {
+	background: url("background.jpg") no-repeat center center fixed;
+	background-size: cover;
+}
