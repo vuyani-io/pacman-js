@@ -51,38 +51,38 @@ export const OBJECT_TYPE = [
 	"clyde",
 ];
 
-// export const CHARACTER_DEFAULTS = {
-// 	PACMAN: {
-// 		type: 4,
-// 		coord: {
-// 			row: 14,
-// 			col: 9,
-// 		},
-// 		velocity: {
-// 			speed: 2,
-// 			displacement: {
-// 				row: 0,
-// 				col: 1,
-// 			},
-// 		},
-// 	},
-// 	GHOST: (row, col, type) => ({
-// 		type,
-// 		isScared: false,
-// 		startCoord: {
-// 			row,
-// 			col,
-// 		},
-// 		coord: {
-// 			row,
-// 			col,
-// 		},
-// 		velocity: {
-// 			speed: 3,
-// 			displacement: {
-// 				row: 0,
-// 				col: 0,
-// 			},
-// 		},
-// 	}),
-// };
+export const CHARACTER_DEFAULTS = {
+	PACMAN: {
+		value: 4,
+		coord: {
+			row: 14,
+			col: 9,
+		},
+		velocity: {
+			speed: 2,
+			displacement: {
+				row: 0,
+				col: 1,
+			},
+		},
+	},
+	GHOST: (row, col, value) => ({
+		value,
+		isScared: false,
+		startCoord: {
+			row,
+			col,
+		},
+		coord: {
+			row,
+			col,
+		},
+		velocity: {
+			speed: 3,
+			displacement: {
+				row: 0,
+				col: 0,
+			},
+		},
+	}),
+};
