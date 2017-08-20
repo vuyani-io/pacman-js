@@ -22,7 +22,9 @@ function createSquare(classNames, type) {
 
 function patchSquare(DOMSquare, classNames, type) {
 	const oldClassNames = DOMSquare.classList.value.split(" ");
+
 	for (let oldClass of oldClassNames) {
+		if (oldClass === "square") continue;
 		DOMSquare.classList.remove(oldClass);
 	}
 
@@ -30,6 +32,14 @@ function patchSquare(DOMSquare, classNames, type) {
 		DOMSquare.classList.add(className);
 	}
 	DOMSquare.setAttribute("data-type", type);
+}
+
+function removeClasses(DOMElement, exception) {
+	const classNames = DOMElement.classList.value.split(" ");
+	for (let className of classNames) {
+		if (className === exception) continue;
+		DOMElement.classList.remove(className);
+	}
 }
 
 function createGrid(DOMGrid, board) {
@@ -47,12 +57,11 @@ function patchGrid(DOMGrid, board) {
 	let count = 0;
 	board.forEach((row) => {
 		row.forEach((square) => {
-			const DOMSquare = DOMGrid.children.item(count);
+			const DOMSquare = DOMGrid.children.item(count++);
 			const type = Number(DOMSquare.getAttribute("data-type"));
 			if (type !== square) {
 				patchSquare(DOMSquare, OBJECT_CLASSES[OBJECT_TYPE[square]], square);
 			}
-			count++;
 		});
 	});
 }
