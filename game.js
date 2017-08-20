@@ -41,14 +41,10 @@ export default class GameBoard {
 
 	nextFrame() {
 		// Move pacman on game board
-		const { type, coord } = this.nextSquare(this.pacman);
-		const objectType = OBJECT_TYPE[type];
-		// prettier-ignore
-		if (objectType === "blank" || objectType === "pill" || objectType === "power-pill") {
-			if (objectType === "pill") console.log("eat pill");
-			else if (objectType === "power-pill") console.log("eat power pill");
-			this.moveCharacter(this.pacman, coord);
-		}
+		this.movePacman();
+
+		// Move ghosts on game board
+		this.moveGhosts();
 	}
 
 	nextSquare(character) {
@@ -74,5 +70,30 @@ export default class GameBoard {
 		this.board[coord.row][coord.col] = character.type;
 		this.board[character.coord.row][character.coord.col] = 0;
 		character.move(coord);
+	}
+
+	movePacman() {
+		const { type, coord } = this.nextSquare(this.pacman);
+		const objectType = OBJECT_TYPE[type];
+		// prettier-ignore
+		if (objectType === "blank" || objectType === "pill" || objectType === "power-pill") {
+			// if (objectType === "pill") console.log("eat pill");
+			// else if (objectType === "power-pill") console.log("eat power pill");
+			this.moveCharacter(this.pacman, coord);
+		}
+	}
+
+	moveGhosts() {
+		this.ghosts.forEach((ghost) => {
+			if (ghost.isStationary()) ghost.changeDirection();
+			const { type, coord } = this.nextSquare(ghost);
+			const objectType = OBJECT_TYPE[type];
+			// prettier-ignore
+			if(objectType === 'blank' || objectType === 'pill' || objectType === 'power-pill'){
+				this.moveCharacter(ghost, coord);
+			}else{
+				ghost.velocity.displacement = {row: 0, col: 0};
+			}
+		});
 	}
 }
