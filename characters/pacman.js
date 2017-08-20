@@ -1,9 +1,7 @@
 import Character from "./character";
 
 export default class Pacman extends Character {
-	constructor(value, coord, velocity) {
-		super(value, coord, velocity);
+	constructor(type, coord, velocity) {
+		super(type, coord, velocity);
 	}
-
-	move(coord) {}
 }

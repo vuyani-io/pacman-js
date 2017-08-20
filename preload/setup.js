@@ -53,7 +53,7 @@ export const OBJECT_TYPE = [
 
 export const CHARACTER_DEFAULTS = {
 	PACMAN: {
-		value: 4,
+		type: 4,
 		coord: {
 			row: 14,
 			col: 9,
@@ -66,8 +66,8 @@ export const CHARACTER_DEFAULTS = {
 			},
 		},
 	},
-	GHOST: (row, col, value) => ({
-		value,
+	GHOST: (row, col, type) => ({
+		type,
 		isScared: false,
 		startCoord: {
 			row,

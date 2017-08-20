@@ -5,22 +5,56 @@ import {
 	CELL_SIZE,
 } from "../preload/setup";
 
-function createSquare(classNames) {
+export function render(DOMGrid, board) {
+	if (DOMGrid.children.length) patchGrid(DOMGrid, board);
+	else createGrid(DOMGrid, board);
+}
+
+function createSquare(classNames, type) {
 	const DOMSquare = document.createElement("div");
 	DOMSquare.classList.add("square");
 	for (let className of classNames) {
 		DOMSquare.classList.add(className);
+		DOMSquare.setAttribute("data-type", type);
 	}
 	return DOMSquare;
 }
 
-export function createGrid(DOMGrid, board) {
+function patchSquare(DOMSquare, classNames, type) {
+	const oldClassNames = DOMSquare.classList.value.split(" ");
+	for (let oldClass of oldClassNames) {
+		DOMSquare.classList.remove(oldClass);
+	}
+
+	for (let className of classNames) {
+		DOMSquare.classList.add(className);
+	}
+	DOMSquare.setAttribute("data-type", type);
+}
+
+function createGrid(DOMGrid, board) {
 	DOMGrid.style.cssText = `grid-template-columns: repeat(${GRID_SIZE}, ${CELL_SIZE}px)`;
 	board.forEach((row) => {
 		row.forEach((square) => {
-			DOMGrid.appendChild(createSquare(OBJECT_CLASSES[OBJECT_TYPE[square]]));
+			DOMGrid.appendChild(
+				createSquare(OBJECT_CLASSES[OBJECT_TYPE[square]], square)
+			);
 		});
 	});
 }
 
-export default { createGrid };
+function patchGrid(DOMGrid, board) {
+	let count = 0;
+	board.forEach((row) => {
+		row.forEach((square) => {
+			const DOMSquare = DOMGrid.children.item(count);
+			const type = Number(DOMSquare.getAttribute("data-type"));
+			if (type !== square) {
+				patchSquare(DOMSquare, OBJECT_CLASSES[OBJECT_TYPE[square]], square);
+			}
+			count++;
+		});
+	});
+}
+
+export default { render };
