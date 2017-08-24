@@ -16,8 +16,8 @@ export default class GameBoard {
 	}
 
 	instantiatePacman() {
-		const { type, coord, velocity } = CHARACTER_DEFAULTS["PACMAN"];
-		this.pacman = new Pacman(type, coord, velocity);
+		const { type, coord, velocity, rotation } = CHARACTER_DEFAULTS["PACMAN"];
+		this.pacman = new Pacman(type, coord, velocity, rotation);
 
 		const { row, col } = coord;
 
@@ -95,5 +95,9 @@ export default class GameBoard {
 				ghost.velocity.displacement = {row: 0, col: 0};
 			}
 		});
+	}
+
+	changePacmanDirection(displacement, rotation) {
+		this.pacman.changeDirection(displacement, rotation);
 	}
 }

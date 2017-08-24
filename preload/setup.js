@@ -54,6 +54,7 @@ export const OBJECT_TYPE = [
 export const CHARACTER_DEFAULTS = {
 	PACMAN: {
 		type: 4,
+		rotation: 0,
 		coord: {
 			row: 14,
 			col: 9,
@@ -85,4 +86,39 @@ export const CHARACTER_DEFAULTS = {
 			},
 		},
 	}),
+};
+
+export const KEY_DICTIONARY = {
+	ArrowUp: {
+		displacement: { row: -1, col: 0 },
+		rotation: 270,
+	},
+	w: {
+		displacement: { row: -1, col: 0 },
+		rotation: 270,
+	},
+	ArrowLeft: {
+		displacement: { row: 0, col: -1 },
+		rotation: 180,
+	},
+	a: {
+		displacement: { row: 0, col: -1 },
+		rotation: 180,
+	},
+	ArrowDown: {
+		displacement: { row: 1, col: 0 },
+		rotation: 90,
+	},
+	s: {
+		displacement: { row: 1, col: 0 },
+		rotation: 90,
+	},
+	ArrowRight: {
+		displacement: { row: 0, col: 1 },
+		rotation: 0,
+	},
+	d: {
+		displacement: { row: 0, col: 1 },
+		rotation: 0,
+	},
 };

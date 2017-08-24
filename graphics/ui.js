@@ -5,9 +5,41 @@ import {
 	CELL_SIZE,
 } from "../preload/setup";
 
-export function render(DOMGrid, board) {
-	if (DOMGrid.children.length) patchGrid(DOMGrid, board);
-	else createGrid(DOMGrid, board);
+export function render(DOMGrid, game) {
+	if (DOMGrid.children.length) patchGrid(DOMGrid, game);
+	else createGrid(DOMGrid, game);
+}
+
+function createGrid(DOMGrid, game) {
+	const { board } = game;
+	DOMGrid.style.cssText = `grid-template-columns: repeat(${GRID_SIZE}, ${CELL_SIZE}px)`;
+	board.forEach((row) => {
+		row.forEach((square) => {
+			DOMGrid.appendChild(
+				createSquare(OBJECT_CLASSES[OBJECT_TYPE[square]], square)
+			);
+		});
+	});
+}
+
+function patchGrid(DOMGrid, game) {
+	const {
+		board,
+		pacman: { rotation },
+	} = game;
+	let count = 0;
+	board.forEach((row) => {
+		row.forEach((square) => {
+			const DOMSquare = DOMGrid.children.item(count++);
+			if (square === 4)
+				DOMSquare.style.cssText = `transform: rotate(${rotation}deg)`;
+			else DOMSquare.style.cssText = ``;
+			const type = Number(DOMSquare.getAttribute("data-type"));
+			if (type !== square) {
+				patchSquare(DOMSquare, OBJECT_CLASSES[OBJECT_TYPE[square]], square);
+			}
+		});
+	});
 }
 
 function createSquare(classNames, type) {
@@ -40,30 +72,6 @@ function removeClasses(DOMElement, exception) {
 		if (className === exception) continue;
 		DOMElement.classList.remove(className);
 	}
-}
-
-function createGrid(DOMGrid, board) {
-	DOMGrid.style.cssText = `grid-template-columns: repeat(${GRID_SIZE}, ${CELL_SIZE}px)`;
-	board.forEach((row) => {
-		row.forEach((square) => {
-			DOMGrid.appendChild(
-				createSquare(OBJECT_CLASSES[OBJECT_TYPE[square]], square)
-			);
-		});
-	});
-}
-
-function patchGrid(DOMGrid, board) {
-	let count = 0;
-	board.forEach((row) => {
-		row.forEach((square) => {
-			const DOMSquare = DOMGrid.children.item(count++);
-			const type = Number(DOMSquare.getAttribute("data-type"));
-			if (type !== square) {
-				patchSquare(DOMSquare, OBJECT_CLASSES[OBJECT_TYPE[square]], square);
-			}
-		});
-	});
 }
 
 export default { render };
