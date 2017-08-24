@@ -1,12 +1,8 @@
 export default class Character {
-	constructor(type, coord, velocity) {
+	constructor(type, coord, velocity, consumedItem) {
 		this.type = type;
 		this.coord = coord;
 		this.velocity = velocity;
-	}
-
-	move(coord) {
-		const { row, col } = coord;
-		this.coord = { row, col };
+		this.consumedItem = consumedItem;
 	}
 }

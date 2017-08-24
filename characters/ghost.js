@@ -8,9 +8,17 @@ const displacementDict = [
 ];
 export default class Ghost extends Character {
 	constructor(type, coord, velocity, startCoord) {
-		super(type, coord, velocity);
+		super(type, coord, velocity, 0);
 		this.startCoord = startCoord;
 		this.isScared = false;
+	}
+
+	move(coord, nextItem) {
+		const { row, col } = coord;
+		this.coord = { row, col };
+		const previousItem = this.consumedItem;
+		this.consumedItem = nextItem;
+		return previousItem;
 	}
 
 	changeDirection() {

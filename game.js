@@ -67,9 +67,14 @@ export default class GameBoard {
 	}
 
 	moveCharacter(character, coord) {
+		const nextSquare = this.board[coord.row][coord.col];
+		const previousCoord = {
+			row: character.coord.row,
+			col: character.coord.col,
+		};
+		const previousSquare = character.move(coord, nextSquare);
+		this.board[previousCoord.row][previousCoord.col] = previousSquare;
 		this.board[coord.row][coord.col] = character.type;
-		this.board[character.coord.row][character.coord.col] = 0;
-		character.move(coord);
 	}
 
 	movePacman() {
