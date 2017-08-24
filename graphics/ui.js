@@ -28,15 +28,29 @@ function patchGrid(DOMGrid, game) {
 		pacman: { rotation },
 	} = game;
 	let count = 0;
-	board.forEach((row) => {
-		row.forEach((square) => {
+	board.forEach((row, rowIndex) => {
+		row.forEach((square, columnIndex) => {
 			const DOMSquare = DOMGrid.children.item(count++);
+
 			if (square === 4)
 				DOMSquare.style.cssText = `transform: rotate(${rotation}deg)`;
 			else DOMSquare.style.cssText = ``;
+
+			// prettier-ignore
+			if (!(square >= 5 && square <= 8) && DOMSquare.classList.contains("scared")) {
+				DOMSquare.classList.remove("scared");
+			}
+
 			const type = Number(DOMSquare.getAttribute("data-type"));
 			if (type !== square) {
-				patchSquare(DOMSquare, OBJECT_CLASSES[OBJECT_TYPE[square]], square);
+				let classNames = [...OBJECT_CLASSES[OBJECT_TYPE[square]]];
+				if (square >= 5 && square <= 8) {
+					const ghost = game.findGhost(rowIndex, columnIndex);
+					if (ghost.isScared) {
+						classNames.push("scared");
+					}
+				}
+				patchSquare(DOMSquare, classNames, square);
 			}
 		});
 	});

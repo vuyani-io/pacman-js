@@ -7,7 +7,14 @@ export default class GameBoard {
 		this.board = LEVEL;
 		this.pacman;
 		this.ghosts = [];
-		this.dotsCount = 176;
+		this.gameStatus;
+		this.dotsCount = 172;
+		this.timer = 0;
+		this.powerPill = {
+			state: false,
+			startInterval: null,
+			endInterval: null,
+		};
 	}
 
 	start() {
@@ -40,11 +47,19 @@ export default class GameBoard {
 	}
 
 	nextFrame() {
+		if (this.status() === 0) return;
+
+		if (this.powerPill.state) {
+			if (this.timer > this.powerPill.endInterval) this.deactivatePowerPill();
+		}
+
 		// Move pacman on game board
 		this.movePacman();
 
 		// Move ghosts on game board
 		this.moveGhosts();
+
+		this.timer++;
 	}
 
 	nextSquare(character) {
@@ -82,9 +97,14 @@ export default class GameBoard {
 		const objectType = OBJECT_TYPE[type];
 		// prettier-ignore
 		if (objectType === "blank" || objectType === "pill" || objectType === "power-pill") {
-			// if (objectType === "pill") console.log("eat pill");
-			// else if (objectType === "power-pill") console.log("eat power pill");
 			this.moveCharacter(this.pacman, coord);
+			const { consumedItem } = this.pacman;
+			if(OBJECT_TYPE[consumedItem] === 'pill') this.dotsCount--;
+			else if(OBJECT_TYPE[consumedItem] === 'power-pill') {
+				this.activatePowerPill();
+			}
+		} else if(type >= 5 && type <= 8){
+			console.log('collision with ghost');
 		}
 	}
 
@@ -97,12 +117,41 @@ export default class GameBoard {
 			if(objectType === 'blank' || objectType === 'pill' || objectType === 'power-pill'){
 				this.moveCharacter(ghost, coord);
 			}else{
+				if(objectType === 'pacman') console.log('collision with pacman');
 				ghost.velocity.displacement = {row: 0, col: 0};
 			}
 		});
 	}
 
+	activatePowerPill() {
+		this.powerPill = {
+			state: true,
+			startInterval: this.timer,
+			endInterval: this.timer + 40,
+		};
+		this.ghosts.forEach((ghost) => (ghost.isScared = true));
+	}
+
+	deactivatePowerPill() {
+		this.powerPill = {
+			state: false,
+			startInterval: null,
+			endInterval: null,
+		};
+		this.ghosts.forEach((ghost) => (ghost.isScared = false));
+	}
+
 	changePacmanDirection(displacement, rotation) {
 		this.pacman.changeDirection(displacement, rotation);
+	}
+
+	findGhost(row, col) {
+		return this.ghosts.find(
+			(ghost) => ghost.coord.row === row && ghost.coord.col === col
+		);
+	}
+
+	status() {
+		return this.dotsCount;
 	}
 }
