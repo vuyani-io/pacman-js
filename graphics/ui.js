@@ -10,7 +10,12 @@ export function renderGameStatus(DOMOverlay, gameStatus) {
 	DOMOverlay.innerHTML = gameStatus;
 }
 
-export function render(DOMGrid, game) {
+function renderScore(DOMScore, score) {
+	DOMScore.innerHTML = score;
+}
+
+export function render(DOMGrid, game, DOMScore, score) {
+	renderScore(DOMScore, score);
 	if (DOMGrid.children.length) patchGrid(DOMGrid, game);
 	else createGrid(DOMGrid, game);
 }

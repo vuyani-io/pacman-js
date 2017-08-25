@@ -4,9 +4,10 @@ import UI from "./graphics/ui";
 
 const DOMGrid = document.querySelector("#game-board");
 const DOMOverlay = document.querySelector("#overlay");
+const DOMScore = document.querySelector("#score");
 
 const game = new GameBoard();
-UI.render(DOMGrid, game);
+UI.render(DOMGrid, game, DOMScore, game.score);
 
 let refreshID;
 let isPaused = true;
@@ -41,14 +42,14 @@ function refreshUI() {
 		UI.renderGameStatus(DOMOverlay, "Game Over!");
 		clearInterval(refreshID);
 	}
-	UI.render(DOMGrid, game);
+	UI.render(DOMGrid, game, DOMScore, game.score);
 }
 
 function startGame() {
 	if (!refreshID) {
 		isPaused = !isPaused;
 		game.start();
-		UI.render(DOMGrid, game);
+		UI.render(DOMGrid, game, DOMScore, game.score);
 		refreshID = setInterval(refreshUI, 250);
 	}
 }

@@ -9,6 +9,7 @@ export default class GameBoard {
 		this.ghosts = [];
 		this.gameStatus = 0;
 		this.dotsCount = 172;
+		this.score = 0;
 		this.timer = 0;
 		this.powerPill = {
 			state: false,
@@ -101,7 +102,10 @@ export default class GameBoard {
 		if (objectType === "blank" || objectType === "pill" || objectType === "power-pill") {
 			this.moveCharacter(this.pacman, coord);
 			const { consumedItem } = this.pacman;
-			if(OBJECT_TYPE[consumedItem] === 'pill') this.dotsCount--;
+			if(OBJECT_TYPE[consumedItem] === 'pill') {
+				this.dotsCount--;
+				this.score += 10;
+			}
 			else if(OBJECT_TYPE[consumedItem] === 'power-pill') {
 				this.activatePowerPill();
 			}
@@ -111,9 +115,11 @@ export default class GameBoard {
 				// console.log('eat ghost');
 				this.resetGhost(ghost);
 				this.moveCharacter(this.pacman, coord);
-				if(this.pacman.consumedItem === 2) this.dotsCount--;
+				if(this.pacman.consumedItem === 2) {
+					this.dotsCount--;
+					this.score += 10;
+				}
 			} else{
-				console.log("collision: end game");
 				this.gameStatus = -1;
 			}
 		}
@@ -133,7 +139,6 @@ export default class GameBoard {
 						// console.log('eat ghost');
 						this.resetGhost(ghost);
 					}else {
-						console.log('collision: end game');
 						this.gameStatus = -1;
 					}
 				}
@@ -188,6 +193,7 @@ export default class GameBoard {
 		ghost.isScared = false;
 
 		this.board[ghost.coord.row][ghost.coord.col] = ghost.type;
+		this.score += 50;
 	}
 
 	status() {
