@@ -7,7 +7,7 @@ export default class GameBoard {
 		this.board = LEVEL;
 		this.pacman;
 		this.ghosts = [];
-		this.gameStatus;
+		this.gameStatus = 0;
 		this.dotsCount = 172;
 		this.timer = 0;
 		this.powerPill = {
@@ -47,17 +47,19 @@ export default class GameBoard {
 	}
 
 	nextFrame() {
-		if (this.status() === 0) return;
+		if (this.status() !== 0) return;
 
 		if (this.powerPill.state) {
 			if (this.timer > this.powerPill.endInterval) this.deactivatePowerPill();
 		}
 
-		// Move pacman on game board
-		this.movePacman();
-
 		// Move ghosts on game board
 		this.moveGhosts();
+
+		if (this.status() !== 0) return;
+
+		// Move pacman on game board
+		this.movePacman();
 
 		this.timer++;
 	}
@@ -104,7 +106,16 @@ export default class GameBoard {
 				this.activatePowerPill();
 			}
 		} else if(type >= 5 && type <= 8){
-			console.log('collision with ghost');
+			const ghost = this.findGhost(coord.row, coord.col);
+			if(ghost.isScared) {
+				// console.log('eat ghost');
+				this.resetGhost(ghost);
+				this.moveCharacter(this.pacman, coord);
+				if(this.pacman.consumedItem === 2) this.dotsCount--;
+			} else{
+				console.log("collision: end game");
+				this.gameStatus = -1;
+			}
 		}
 	}
 
@@ -117,7 +128,15 @@ export default class GameBoard {
 			if(objectType === 'blank' || objectType === 'pill' || objectType === 'power-pill'){
 				this.moveCharacter(ghost, coord);
 			}else{
-				if(objectType === 'pacman') console.log('collision with pacman');
+				if(objectType === 'pacman') {
+					if(ghost.isScared){
+						// console.log('eat ghost');
+						this.resetGhost(ghost);
+					}else {
+						console.log('collision: end game');
+						this.gameStatus = -1;
+					}
+				}
 				ghost.velocity.displacement = {row: 0, col: 0};
 			}
 		});
@@ -151,7 +170,28 @@ export default class GameBoard {
 		);
 	}
 
+	resetGhost(ghost) {
+		const nextSquare = {
+			type: ghost.consumedItem,
+			coord: {
+				row: ghost.coord.row,
+				col: ghost.coord.col,
+			},
+		};
+		this.board[nextSquare.coord.row][nextSquare.coord.col] = nextSquare.type;
+
+		ghost.coord = {
+			row: ghost.startCoord.row,
+			col: ghost.startCoord.col,
+		};
+		ghost.consumedItem = 0;
+		ghost.isScared = false;
+
+		this.board[ghost.coord.row][ghost.coord.col] = ghost.type;
+	}
+
 	status() {
-		return this.dotsCount;
+		if (this.dotsCount === 0) return 1;
+		else return this.gameStatus;
 	}
 }

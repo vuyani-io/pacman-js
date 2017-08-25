@@ -14,6 +14,7 @@ document.querySelector("#start-btn").addEventListener("click", startGame);
 
 window.addEventListener("keydown", ({ key }) => {
 	if (key === " ") {
+		if (game.status() !== 0) return;
 		if (!refreshID) {
 			startGame();
 		} else {
@@ -32,6 +33,13 @@ window.addEventListener("keydown", ({ key }) => {
 
 function refreshUI() {
 	game.nextFrame();
+	if (game.status() === 1) {
+		console.log("game won");
+		clearInterval(refreshID);
+	} else if (game.status() === -1) {
+		clearInterval(refreshID);
+		console.log("game over");
+	}
 	UI.render(DOMGrid, game);
 }
 
