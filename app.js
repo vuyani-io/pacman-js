@@ -3,6 +3,7 @@ import GameBoard from "./game";
 import UI from "./graphics/ui";
 
 const DOMGrid = document.querySelector("#game-board");
+const DOMOverlay = document.querySelector("#overlay");
 
 const game = new GameBoard();
 UI.render(DOMGrid, game);
@@ -34,11 +35,11 @@ window.addEventListener("keydown", ({ key }) => {
 function refreshUI() {
 	game.nextFrame();
 	if (game.status() === 1) {
-		console.log("game won");
+		UI.renderGameStatus(DOMOverlay, "Congratulations, You've Won");
 		clearInterval(refreshID);
 	} else if (game.status() === -1) {
+		UI.renderGameStatus(DOMOverlay, "Game Over!");
 		clearInterval(refreshID);
-		console.log("game over");
 	}
 	UI.render(DOMGrid, game);
 }

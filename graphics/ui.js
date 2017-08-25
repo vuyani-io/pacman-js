@@ -5,6 +5,11 @@ import {
 	CELL_SIZE,
 } from "../preload/setup";
 
+export function renderGameStatus(DOMOverlay, gameStatus) {
+	DOMOverlay.style.cssText = "display: grid !important";
+	DOMOverlay.innerHTML = gameStatus;
+}
+
 export function render(DOMGrid, game) {
 	if (DOMGrid.children.length) patchGrid(DOMGrid, game);
 	else createGrid(DOMGrid, game);
@@ -88,4 +93,4 @@ function removeClasses(DOMElement, exception) {
 	}
 }
 
-export default { render };
+export default { render, renderGameStatus };

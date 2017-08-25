@@ -10,12 +10,32 @@ body {
 }
 
 .wrapper {
+	position: relative;
 	display: flex;
 	min-height: 500px;
 	padding: 48px;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
+}
+
+#overlay {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%);
+	height: inherit;
+	width: inherit;
+	background: black;
+	border: 5px solid white;
+	padding: 20px;
+	z-index: 100;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	display: none;
+	font-size: 48px;
 }
 
 #game-board {
