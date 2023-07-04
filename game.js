@@ -1,6 +1,6 @@
-import { LEVEL, CHARACTER_DEFAULTS, OBJECT_TYPE } from "./preload/setup";
-import Pacman from "./characters/pacman";
-import Ghost from "./characters/ghost";
+import { LEVEL, CHARACTER_DEFAULTS, OBJECT_TYPE } from "./preload/setup.js";
+import Pacman from "./characters/pacman.js";
+import Ghost from "./characters/ghost.js";
 
 export default class GameBoard {
 	constructor() {
@@ -201,3 +201,4 @@ export default class GameBoard {
 		else return this.gameStatus;
 	}
 }
+

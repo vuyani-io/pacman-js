@@ -1,6 +1,6 @@
-import { KEY_DICTIONARY } from "./preload/setup";
-import GameBoard from "./game";
-import UI from "./graphics/ui";
+import { KEY_DICTIONARY } from "./preload/setup.js";
+import GameBoard from "./game.js";
+import UI from "./graphics/ui.js";
 
 const DOMGrid = document.querySelector("#game-board");
 const DOMOverlay = document.querySelector("#overlay");
@@ -53,3 +53,4 @@ function startGame() {
 		refreshID = setInterval(refreshUI, 250);
 	}
 }
+

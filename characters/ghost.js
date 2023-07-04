@@ -1,4 +1,4 @@
-import Character from "./character";
+import Character from "./character.js";
 
 const displacementDict = [
 	{ row: 0, col: 1 },
@@ -34,3 +34,4 @@ export default class Ghost extends Character {
 		return row === 0 && col === 0;
 	}
 }
+

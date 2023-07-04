@@ -1,4 +1,4 @@
-import Character from "./character";
+import Character from "./character.js";
 
 export default class Pacman extends Character {
 	constructor(type, coord, velocity, rotation) {
@@ -17,3 +17,4 @@ export default class Pacman extends Character {
 		this.rotation = rotation;
 	}
 }
+

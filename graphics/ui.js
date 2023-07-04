@@ -3,7 +3,7 @@ import {
 	OBJECT_TYPE,
 	GRID_SIZE,
 	CELL_SIZE,
-} from "../preload/setup";
+} from "../preload/setup.js";
 
 export function renderGameStatus(DOMOverlay, gameStatus) {
 	DOMOverlay.style.cssText = "display: grid !important";
@@ -99,3 +99,4 @@ function removeClasses(DOMElement, exception) {
 }
 
 export default { render, renderGameStatus };
+
