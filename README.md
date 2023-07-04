@@ -2,7 +2,7 @@
 
 Welcome to the Pacman Game! This classic game was built using HTML, CSS, and vanilla JavaScript.
 
-The live version of the game is available at: https://pacman-9hynqu2p9-vuyaningubo.vercel.app/
+The live version of the game is available at: https://pacman-js-six.vercel.app/
 
 ## Gameplay Instructions
 
