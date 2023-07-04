@@ -2,6 +2,7 @@ import { KEY_DICTIONARY } from "./preload/setup.js";
 import GameBoard from "./game.js";
 import UI from "./graphics/ui.js";
 
+const DOMInstructions = document.querySelector("#game-instructions");
 const DOMGrid = document.querySelector("#game-board");
 const DOMOverlay = document.querySelector("#overlay");
 const DOMScore = document.querySelector("#score");
@@ -12,7 +13,7 @@ UI.render(DOMGrid, game, DOMScore, game.score);
 let refreshID;
 let isPaused = true;
 
-document.querySelector("#start-btn").addEventListener("click", startGame);
+document.querySelector("#play-btn").addEventListener("click", startGame);
 
 window.addEventListener("keydown", ({ key }) => {
 	if (key === " ") {
@@ -46,6 +47,8 @@ function refreshUI() {
 }
 
 function startGame() {
+	DOMInstructions.style.cssText = "display: none;";
+
 	if (!refreshID) {
 		isPaused = !isPaused;
 		game.start();

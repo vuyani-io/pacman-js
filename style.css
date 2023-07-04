@@ -19,11 +19,11 @@ body {
 	align-items: center;
 }
 
-#overlay {
+#overlay, #game-instructions {
 	position: absolute;
-	top: 40%;
+	top: 50%;
 	left: 50%;
-	transform: translate(-50%);
+	transform: translate(-50%, -50%);
 	height: inherit;
 	width: inherit;
 	background: black;
@@ -36,6 +36,15 @@ body {
 	color: white;
 	display: none;
 	font-size: 48px;
+}
+
+#game-instructions {
+	display: grid;
+	font-size: 16px;
+}
+
+#instruction-header {
+	text-align: center;
 }
 
 #game-board {
@@ -57,7 +66,11 @@ body {
 	font-size: 24px;
 }
 
-#start-btn {
+#play-btn-wrap {
+	text-align: center;
+}
+
+#play-btn {
 	padding: 6px;
 }
 
